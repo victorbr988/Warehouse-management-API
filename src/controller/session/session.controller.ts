@@ -3,7 +3,7 @@ import { SessionService } from "./session.service";
 import { Response } from "express";
 import { STATUS_CODES } from "http";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CreateSessionDto } from "../../repository/dtos/createSession.dto";
+import { UserDto } from "../../repository/dtos/user.dto";
 
 @ApiTags('session') 
 @Controller("session")
@@ -14,16 +14,16 @@ export class SessionController {
   }
 
   @Post("create")
-  @ApiOperation({ summary: 'Create a new session' })  // Descreve a operação
-  @ApiResponse({ status: 200, description: 'Session created successfully.' })  // Descreve a resposta de sucesso
-  @ApiResponse({ status: 404, description: 'Not Found' })  // Descreve a resposta de erro
-  async createSession(@Body() createSessionDto: CreateSessionDto, @Res() res: Response) {
-    const { email } = createSessionDto;
-    console.log(email);
-    const userId = await this.sessionService.createSession({ email });
-    if (!userId) {
-      return res.status(400).json({ message: STATUS_CODES[404] });
+  @ApiOperation({ summary: 'Create a new session' }) 
+  @ApiResponse({ status: 200, description: 'Session created successfully.' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
+  async createSession(@Body() userDto: UserDto, @Res() res: Response) {
+    try {
+      const { email, password } = userDto;
+      const userId = await this.sessionService.createSession({ email, password });
+      return res.status(200).json({ userId });
+    } catch (error) {
+      return res.status(400).json({ message: STATUS_CODES[400] });
     }
-    return res.status(200).json({ userId });
   }
 }

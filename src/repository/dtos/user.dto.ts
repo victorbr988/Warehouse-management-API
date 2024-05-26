@@ -1,10 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateSessionDto {
+export class UserDto {
   @ApiProperty({
     description: "Email do usuário cadastrado",
     type: String,
     required: true
   })
   email: string;
+
+  @ApiProperty({
+    description: "Email do usuário cadastrado",
+    type: String,
+    required: true
+  })
+  password: string;
 }

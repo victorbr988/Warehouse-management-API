@@ -13,7 +13,7 @@ describe('SessionController', () => {
   let expressResponse: Response;
   let usersRepository: Partial<Record<keyof Repository<User>, jest.Mock>>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     usersRepository = {
       findOneBy: jest.fn(),
     };
@@ -35,25 +35,27 @@ describe('SessionController', () => {
   });
 
   describe('Should return message on json response', () => {
-    it('Should return "Not Found" when user not found', async () => {
-      jest.spyOn(usersRepository, 'findOneBy').mockResolvedValue(null);
-      jest.spyOn(sessionService, 'createSession').mockResolvedValue(null);
+    it('Should return error when user not found', async () => {
+      usersRepository.findOneBy.mockResolvedValueOnce(null);
+      sessionService.createSession = jest.fn().mockRejectedValue(new Error("Not found"));
 
       const response = await sessionController.createSession(
-        { email: 'test@test.com' },
+        { email: 'test@test.com', password: '123456' },
         expressResponse,
       );
 
-      expect(response).toEqual({ message: STATUS_CODES[404] });
+      expect(response).toEqual({ message: STATUS_CODES[400] });
     });
 
     it('Should return "userId" when user was found', async () => {
       const expectResponse = { userId: "1314s54d56s4ddsdcvs" };
-      jest.spyOn(usersRepository, 'findOneBy').mockResolvedValue("1314s54d56s4ddsdcvs");
-      jest.spyOn(sessionService, 'createSession').mockResolvedValue("1314s54d56s4ddsdcvs");
-
+      usersRepository.findOneBy.mockResolvedValueOnce({
+        id: "1314s54d56s4ddsdcvs",
+      });
+      sessionService.createSession = jest.fn().mockResolvedValue("1314s54d56s4ddsdcvs");
+      
       const response = await sessionController.createSession(
-        { email: 'test@test.com' },
+        { email: 'test@test.com', password: '123456' },
         expressResponse,
       );
 

@@ -8,7 +8,7 @@ describe('SessionService', () => {
   let sessionService: SessionService;
   let usersRepository: Partial<Record<keyof Repository<User>, jest.Mock>>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     usersRepository = {
       findOneBy: jest.fn(),
     };
@@ -23,24 +23,25 @@ describe('SessionService', () => {
     sessionService = app.get<SessionService>(SessionService);
   });
 
+
   describe('Should return response', () => {
     it('Null when user not found', async () => {
-      jest.spyOn(usersRepository, 'findOneBy').mockResolvedValue(null);
+      usersRepository.findOneBy.mockResolvedValueOnce(null);
 
       const userId = await sessionService.createSession(
-        { email: 'test@test.com' },
+        { email: 'test@test.com', password: '123456' },
       );
 
       expect(userId).toBeFalsy();
     });
 
     it('"Id" when user was found', async () => {
-      jest.spyOn(usersRepository, 'findOneBy').mockReturnValue({
+      usersRepository.findOneBy.mockReturnValueOnce({
         id: "1314s54d56s4ddsdcvs",
       });
 
       const userId = await sessionService.createSession(
-        { email: 'test@test.com' },
+        { email: 'test@test.com',  password: '123456' },
       );
 
       expect(userId).toEqual("1314s54d56s4ddsdcvs");

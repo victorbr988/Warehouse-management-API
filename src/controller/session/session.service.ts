@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateSessionDto } from '../../repository/dtos/createSession.dto';
+import { UserDto } from '../../repository/dtos/user.dto';
 import { User } from '../../repository/entity/user.entity';
 import { Repository } from 'typeorm';
 
@@ -11,7 +11,7 @@ export class SessionService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async createSession({ email }: CreateSessionDto): Promise<string | null> {
+  async createSession({ email, password }: UserDto): Promise<string | null> {
     const user = await this.getUserByEmail(email);
 
     if (!user) {

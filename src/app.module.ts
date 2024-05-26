@@ -5,7 +5,8 @@ import { SessionController } from './controller/session/session.controller';
 import { SessionModule } from './controller/session/session.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SessionService } from './controller/session/session.service';
+import { UserModule } from './controller/user/user.module';
+import { UserController } from './controller/user/user.controller';
 
 @Module({
   imports: [
@@ -20,9 +21,11 @@ import { SessionService } from './controller/session/session.service';
       synchronize: true,
     }),
     SessionModule,
+    UserModule
   ],
   controllers: [
     SessionController,
+    UserController,
     AppController
   ],
   providers: [
