@@ -13,7 +13,7 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  public async createUser({ email, password }: UserDto) {
+  public async createUser({ email, password, name }: UserDto) {
     const userHassBeenCreated = await this.getUserByEmail(email);
 
     if (userHassBeenCreated) {
@@ -25,10 +25,8 @@ export class UserService {
     const userDatabase = {
       id: createId(),
       email,
-      name: "",
+      name,
       password: hashedPassword,
-      instagramId: "",
-      profilePicture: "",
     }
 
     await this.usersRepository

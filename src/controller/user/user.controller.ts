@@ -16,8 +16,8 @@ export class UserController {
   @Post()
   public async createUser(@Body() userDto: UserDto, @Res() res: Response) {
     try {
-      const { email, password } = userDto;
-      await this.userService.createUser({ email, password });
+      const { email, password, name } = userDto;  
+      await this.userService.createUser({ email, password, name });
       
       return res.status(201).json({ message: "User created successfully" });
     } catch (error) {

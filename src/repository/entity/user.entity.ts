@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { HistoryMovimentation } from './history-movimentation.entity';
 
 @Entity()
 export class User {
@@ -14,9 +15,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: null})
-  instagramId: string;
-
-  @Column({ default: null})
-  profilePicture: string;
+  @OneToMany(() => User, (user) => user.historyMovimentations)
+  historyMovimentations: HistoryMovimentation[];
 }
