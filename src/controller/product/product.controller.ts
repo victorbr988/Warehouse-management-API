@@ -15,6 +15,7 @@ export class ProductController {
 
   @Post("create")
   @ApiResponse({ status: 201, description: 'Product created successfully' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   public async createProduct(@Body() productDto: ProductDto, @Res() res: Response) {
     try {

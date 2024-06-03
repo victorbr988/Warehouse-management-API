@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   CanActivate,
   ExecutionContext,
   Injectable,
@@ -35,7 +36,7 @@ export class AuthGuard implements CanActivate {
       );
       request['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new BadGatewayException();
     }
     return true;
   }
