@@ -12,6 +12,9 @@ import { JwtModule } from '@nestjs/jwt';
 import "dotenv/config";
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { Product } from './repository/entity/product.entity';
+import { ProductModule } from './controller/product/product.module';
+import { ProductController } from './controller/product/product.controller';
 
 @Module({
   imports: [
@@ -22,7 +25,7 @@ import { AuthGuard } from './auth/auth.guard';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'vm',
-      entities: [ User, HistoryMovimentation ],
+      entities: [ User, HistoryMovimentation, Product ],
       synchronize: true,
     }),
     JwtModule.register({
@@ -31,12 +34,14 @@ import { AuthGuard } from './auth/auth.guard';
       signOptions: { expiresIn: '10h' },
     }),
     SessionModule,
-    UserModule
+    UserModule,
+    ProductModule
   ],
   controllers: [
     SessionController,
     UserController,
-    AppController
+    AppController,
+    ProductController
   ],
   providers: [
     AppService,

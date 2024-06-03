@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { createId } from "@paralleldrive/cuid2";
 import { UserDto } from "src/repository/dtos/user.dto";
@@ -17,7 +17,7 @@ export class UserService {
     const userHassBeenCreated = await this.getUserByEmail(email);
 
     if (userHassBeenCreated) {
-      throw new Error("User already exists");
+      throw new BadRequestException("User already exists");
     }
 
     const hashedPassword = await ManagePassword.hashPassword(password);

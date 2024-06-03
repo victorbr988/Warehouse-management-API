@@ -16,8 +16,9 @@ export class SessionController {
   @Public()
   @Post("create")
   @ApiOperation({ summary: 'Create a new session' }) 
-  @ApiResponse({ status: 200, description: 'Session created successfully.' })
   @ApiResponse({ status: 404, description: 'Not Found' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
   async createSession(@Body() userDto: SessionDto, @Res({ passthrough: true }) res: Response) {
     try{
       const { email, password } = userDto;
