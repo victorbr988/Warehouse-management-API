@@ -15,6 +15,8 @@ import { AuthGuard } from './auth/auth.guard';
 import { Product } from './repository/entity/product.entity';
 import { ProductModule } from './controller/product/product.module';
 import { ProductController } from './controller/product/product.controller';
+import { HistoryModule } from './controller/history/history.module';
+import { HistoryController } from './controller/history/history.controller';
 
 @Module({
   imports: [
@@ -35,13 +37,15 @@ import { ProductController } from './controller/product/product.controller';
     }),
     SessionModule,
     UserModule,
-    ProductModule
+    ProductModule,
+    HistoryModule,
   ],
   controllers: [
     SessionController,
     UserController,
     AppController,
-    ProductController
+    ProductController,
+    HistoryController,
   ],
   providers: [
     AppService,

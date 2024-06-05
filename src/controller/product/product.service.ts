@@ -9,7 +9,7 @@ import { Repository } from "typeorm";
 export class ProductService {
   constructor(
     @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    private productRepository: Repository<Product>
   ) {}
 
   public async createProduct({ name, quantity }: ProductDto) {
@@ -68,5 +68,14 @@ export class ProductService {
       .execute();
 
     return "Product deleted";
+  }
+  public async getProduct(id: string) {
+    const product = await this.productRepository.findOneBy({ id });
+
+    if (!product) {
+      throw new NotFoundException("Product not found");
+    }
+
+    return product;
   }
 }
