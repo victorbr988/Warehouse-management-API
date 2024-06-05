@@ -13,8 +13,6 @@ export class HistoryService {
   constructor(
     @InjectRepository(HistoryMovimentation)
     private historyRepository: Repository<HistoryMovimentation>,
-
-    @Inject(forwardRef(() => ProductService))
     private productService: ProductService,
   ) {}
 
