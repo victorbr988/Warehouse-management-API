@@ -28,7 +28,6 @@ import { HistoryController } from './controller/history/history.controller';
       password: process.env.DATABASE_PASSWORD,
       database: 'vm',
       entities: [ User, HistoryMovimentation, Product ],
-      synchronize: true,
     }),
     JwtModule.register({
       global: true,
