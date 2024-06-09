@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
       );
       request['user'] = payload;
     } catch {
-      throw new BadGatewayException();
+      throw new BadGatewayException("Token inválido");
     }
     return true;
   }

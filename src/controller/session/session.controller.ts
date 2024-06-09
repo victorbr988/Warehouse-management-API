@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Logger, Post, Res } from "@nestjs/common";
 import { SessionService } from "./session.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { SessionDto } from "src/repository/dtos/session.dto";
@@ -20,17 +20,13 @@ export class SessionController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   async createSession(@Body() userDto: SessionDto, @Res({ passthrough: true }) res: Response) {
-    try{
-      const { email, password } = userDto;
-      const accessToken = await this.sessionService.createSession({ email, password });
+    const { email, password } = userDto;
+    const accessToken = await this.sessionService.createSession({ email, password });
 
-      res.cookie('token', accessToken, { 
-        httpOnly: true, 
-        maxAge: 60 * 60 * 24 * 30, 
-        sameSite: 'lax' 
-      });
-    } catch (error) {
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
-    }
+    res.cookie('token', accessToken, { 
+      httpOnly: true, 
+      maxAge: 60 * 60 * 24 * 30, 
+      sameSite: 'lax' 
+    });
   }
 }

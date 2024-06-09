@@ -7,6 +7,7 @@ export class SessionDto {
     type: String,
     required: true
   })
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
