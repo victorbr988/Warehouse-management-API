@@ -1,7 +1,7 @@
-import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../repository/entity/user.entity';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { SessionDto } from 'src/repository/dtos/session.dto';
 import { ManagePassword } from 'src/utils/bcrypt/managePassword';
 import { JwtService } from '@nestjs/jwt';
