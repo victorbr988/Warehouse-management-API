@@ -31,7 +31,7 @@ export class HistoryMovimentation {
   @Column()
   quantity: number;
 
-  @CreateDateColumn()
+  @Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
 
   @UpdateDateColumn()

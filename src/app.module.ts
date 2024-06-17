@@ -29,6 +29,9 @@ import { HistoryController } from './controller/history/history.controller';
       database: 'vm',
       autoLoadEntities: true,
       synchronize: true,
+      extra: {
+        timezone: '-03:00',
+      },
       entities: [ User, HistoryMovimentation, Product ],
     }),
     JwtModule.register({
