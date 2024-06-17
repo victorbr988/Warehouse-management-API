@@ -3,6 +3,7 @@ import { UserService } from "./user.service";
 import { UserDto } from "src/repository/dtos/user.dto";
 import { Response } from "express";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Public } from "src/utils/customDecorators/makePublicRoute";
 
 @ApiTags("user")
 @Controller("user")
@@ -13,6 +14,7 @@ export class UserController {
     this.userService = userService;
   }
 
+  @Public()
   @Post("create")
   @ApiResponse({ status: 201, description: 'User created successfully' })
   @ApiResponse({ status: 400, description: 'User already exists' })

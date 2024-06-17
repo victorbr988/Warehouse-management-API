@@ -19,8 +19,8 @@ export class SessionController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
-  async createSession(@Body() userDto: SessionDto, @Res() res: Response) {
-    const { email, password } = userDto;
+  async createSession(@Body() sessionDto: SessionDto, @Res() res: Response) {
+    const { email, password } = sessionDto;
     const accessToken = await this.sessionService.createSession({ email, password });
 
     return res.status(201).cookie('token', accessToken, { 
@@ -28,7 +28,7 @@ export class SessionController {
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : "lax",
+      sameSite: "lax",
     }).json({ message: "Session created successfully" });
   }
 }

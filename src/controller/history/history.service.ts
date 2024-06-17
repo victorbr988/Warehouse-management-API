@@ -17,17 +17,33 @@ export class HistoryService {
   ) {}
 
   public async getHistory({ take, skip }) {
-    const [result , total] = await this.historyRepository.findAndCount({
-      take: take || 10,
-      skip: skip || 0,
-      order: {
-        createdAt: "DESC"
-      }
-    });
+    const [result, total] = await this.historyRepository
+    .createQueryBuilder('history')
+    .innerJoinAndSelect('history.product', 'product')
+    .take(take)
+    .skip(skip)
+    .orderBy('history.createdAt', 'DESC')
+    .select([
+      'history.id',
+      'history.type',
+      'history.quantity',
+      'history.createdAt',
+      'product.id',
+      'product.name',
+    ])
+    .getManyAndCount();
+  
+    const historyFormat = result.map((history) => ({
+      id: history.id,
+      type: history.type,
+      quantity: history.quantity,
+      product: history.product.name,
+      datetime: history.createdAt,
+    }));
 
     return {
-      data: result,
-      count: total
+      data: historyFormat,
+      count: total,
     };
   }
 
@@ -36,9 +52,9 @@ export class HistoryService {
     this.product = product;
 
     const historyDatabase = {
-      id: createId(),
       type,
       quantity,
+      product,
       productId,
     }
 

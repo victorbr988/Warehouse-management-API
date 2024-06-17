@@ -1,10 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { HistoryMovimentation } from './history-movimentation.entity';
+import { v4 as uuidV4 } from 'uuid';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuidV4();
 
   @Column()
   name: string;

@@ -13,7 +13,7 @@ export class HistoryController {
     this.historyService = historyService;
   }
 
-  @Get("listar")
+  @Get("list")
   public async getHistory(@Query() historyListDto: HistoryListDto, @Res() res: Response) {
     try {
       const { take, skip } = historyListDto;
@@ -29,7 +29,7 @@ export class HistoryController {
     try {
       const { type, quantity, productId } = historyDto;
       const history = await this.historyService.createHistory({ type, quantity, productId });
-      return res.status(HttpStatus.CREATED).json({ message: "History criada com sucesso", history });
+      return res.status(HttpStatus.CREATED).json({ message: "History successfully created", history });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }

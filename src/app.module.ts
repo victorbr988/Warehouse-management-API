@@ -21,12 +21,14 @@ import { HistoryController } from './controller/history/history.controller';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DATABASE_HOST,
       port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'vm',
+      autoLoadEntities: true,
+      synchronize: true,
       entities: [ User, HistoryMovimentation, Product ],
     }),
     JwtModule.register({

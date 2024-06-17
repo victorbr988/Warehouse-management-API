@@ -1,17 +1,19 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Product } from "./product.entity";
+import { v4 as uuidV4 } from 'uuid';
 
 export enum HistoryMovimentationType {
-  ENTRANCE = 1,
-  EXIT = 2,
-  NONE = 3,
+  ENTRANCE = "1",
+  EXIT = "2",
+  PRODUCT = "3",
+  NONE = "4",
 }
 
 @Entity()
 export class HistoryMovimentation {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuidV4();
 
   @Column({
     type: "enum",
