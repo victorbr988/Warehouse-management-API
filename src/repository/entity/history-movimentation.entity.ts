@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Product } from "./product.entity";
 import { v4 as uuidV4 } from 'uuid';
@@ -34,9 +34,9 @@ export class HistoryMovimentation {
   @Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
 
-  @Column({ type: "timestamptz" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ type: "timestamptz" })
+  @DeleteDateColumn()
   deletedAt: Date;
 }
