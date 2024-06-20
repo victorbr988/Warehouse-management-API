@@ -35,6 +35,7 @@ export class HistoryService {
   
     const historyFormat = result.map((history) => ({
       id: history.id,
+      productId: history.product.id,
       type: history.type,
       quantity: history.quantity,
       product: history.product.name,

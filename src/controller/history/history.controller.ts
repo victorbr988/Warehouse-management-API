@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Put, Query, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { HistoryDto, HistoryListDto } from "src/repository/dtos/history.dto";

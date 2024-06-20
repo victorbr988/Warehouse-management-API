@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { ProductDto } from "src/repository/dtos/product.dto";
+import { ProductByIdDto, ProductDto } from "src/repository/dtos/product.dto";
 import { ProductService } from "./product.service";
 
 @ApiTags("product")
@@ -21,6 +21,19 @@ export class ProductController {
     try {
       const productList = await this.productService.getProductList();
       return res.status(HttpStatus.OK).json(productList);
+    } catch (error) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
+    }
+  }
+
+  @Get(":id")
+  @ApiResponse({ status: 200, description: 'Product list successfully', type: ProductByIdDto })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
+  public async getProductById(@Param("id") id: string, @Res() res: Response) {
+    try {
+      const product = await this.productService.getProduct(id);
+      return res.status(HttpStatus.OK).json(product);
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }

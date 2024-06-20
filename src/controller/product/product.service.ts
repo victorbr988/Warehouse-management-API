@@ -76,7 +76,21 @@ export class ProductService {
     return "Product deleted";
   }
   public async getProduct(id: string) {
-    const product = await this.productRepository.findOneBy({ id });
+    const product = await this.productRepository
+      .createQueryBuilder("product")
+      .select([
+        "product.id as id",
+        "product.name as name",
+        "SUM(CASE WHEN historyMovimentations.type = '1' THEN historyMovimentations.quantity ELSE 0 END) as total_entrance",
+        "SUM(CASE WHEN historyMovimentations.type = '2' THEN historyMovimentations.quantity ELSE 0 END) as total_exit",
+        `product.quantity as quantity`,
+      ])
+      .innerJoin("product.historyMovimentations", "historyMovimentations")
+      .where("product.id = :id", { id })
+      .groupBy("product.id")
+      .addGroupBy("product.name")
+      .addGroupBy("product.quantity")
+      .getRawOne();
 
     if (!product) {
       throw new NotFoundException("Product not found");
