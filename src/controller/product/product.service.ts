@@ -85,7 +85,7 @@ export class ProductService {
         "SUM(CASE WHEN historyMovimentations.type = '2' THEN historyMovimentations.quantity ELSE 0 END) as total_exit",
         `product.quantity as quantity`,
       ])
-      .innerJoin("product.historyMovimentations", "historyMovimentations")
+      .leftJoin("product.historyMovimentations", "historyMovimentations")
       .where("product.id = :id", { id })
       .groupBy("product.id")
       .addGroupBy("product.name")

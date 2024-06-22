@@ -6,6 +6,7 @@ import { HistoryMovimentation, HistoryMovimentationType } from "src/repository/e
 import { Repository } from "typeorm";
 import { ProductService } from "../product/product.service";
 import { Product } from "src/repository/entity/product.entity";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class HistoryService {
@@ -14,6 +15,7 @@ export class HistoryService {
     @InjectRepository(HistoryMovimentation)
     private historyRepository: Repository<HistoryMovimentation>,
     private productService: ProductService,
+    private userService: UserService,
   ) {}
 
   public async getHistory({ take, skip }) {
@@ -48,8 +50,9 @@ export class HistoryService {
     };
   }
 
-  public async createHistory({ type, quantity, productId }: HistoryDto) {
+  public async createHistory({ type, quantity, productId, email }: Record<string, any>) {
     const product = await this.productService.getProduct(productId);
+    const user = await this.userService.getUserByEmail(email);
     this.product = product;
 
     const historyDatabase = {
@@ -57,6 +60,8 @@ export class HistoryService {
       quantity,
       product,
       productId,
+      user,
+      userId: user.id,
     }
 
     await this.historyRepository
@@ -66,7 +71,7 @@ export class HistoryService {
       .values(historyDatabase)
       .execute();
 
-    await this.updateProductByHistory({ type, quantity, productId });
+    await this.updateProductByHistory({ type, quantity, productId, userId: user.id });
 
     return "History created";
   }

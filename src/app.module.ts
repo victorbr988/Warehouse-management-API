@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './repository/entity/user.entity';
 import { SessionController } from './controller/session/session.controller';
 import { SessionModule } from './controller/session/session.module';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './controller/user/user.module';
 import { UserController } from './controller/user/user.controller';
@@ -30,7 +29,7 @@ import { HistoryController } from './controller/history/history.controller';
       autoLoadEntities: true,
       synchronize: true,
       extra: {
-        timezone: '-03:00',
+        timezone: 'UTC',
       },
       entities: [ User, HistoryMovimentation, Product ],
     }),
@@ -39,16 +38,15 @@ import { HistoryController } from './controller/history/history.controller';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '10h' },
     }),
-    SessionModule,
-    UserModule,
     ProductModule,
+    UserModule,
+    SessionModule,
     HistoryModule,
   ],
   controllers: [
-    SessionController,
-    UserController,
-    AppController,
     ProductController,
+    UserController,
+    SessionController,
     HistoryController,
   ],
   providers: [
@@ -56,7 +54,7 @@ import { HistoryController } from './controller/history/history.controller';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    },
+    }
   ],
 })
 export class AppModule {}

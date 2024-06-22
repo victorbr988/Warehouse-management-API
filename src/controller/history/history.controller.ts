@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Put, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Inject, Post, Put, Query, Req, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { HistoryDto, HistoryListDto } from "src/repository/dtos/history.dto";
@@ -25,10 +25,12 @@ export class HistoryController {
     }
   }
   @Post("create")
-  public async createHistory(@Body() historyDto: HistoryDto, @Res() res: Response) {
+  public async createHistory(@Body() historyDto: HistoryDto, @Req() req: any, @Res() res: Response) {
     try {
+      const { email } = req.user
       const { type, quantity, productId } = historyDto;
-      const history = await this.historyService.createHistory({ type, quantity, productId });
+      const history = await this.historyService.createHistory({ type, quantity, productId, email });
+
       return res.status(HttpStatus.CREATED).json({ message: "History successfully created", history });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });

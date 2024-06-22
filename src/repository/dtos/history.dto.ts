@@ -31,6 +31,13 @@ export class HistoryDto {
   })
   @IsNotEmpty()
   quantity: number;
+
+  @ApiProperty({
+    description: "Id do usuário",
+    type: String,
+    required: true
+  })
+  userId: string;
 }
 
 export class HistoryListDto {
