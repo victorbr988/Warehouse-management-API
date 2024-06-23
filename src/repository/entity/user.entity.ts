@@ -16,7 +16,7 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => HistoryMovimentation, (historyMovimentation) => historyMovimentation.user)
+  @OneToMany(() => HistoryMovimentation, (historyMovimentation) => historyMovimentation.user, { cascade: true, onDelete: "CASCADE" })
   historyMovimentations: HistoryMovimentation[];
 
   @Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })

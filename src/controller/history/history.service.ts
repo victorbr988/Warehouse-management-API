@@ -1,6 +1,5 @@
-import { Inject, Injectable, forwardRef } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { createId } from "@paralleldrive/cuid2";
 import { HistoryDto } from "src/repository/dtos/history.dto";
 import { HistoryMovimentation, HistoryMovimentationType } from "src/repository/entity/history-movimentation.entity";
 import { Repository } from "typeorm";
@@ -19,6 +18,34 @@ export class HistoryService {
   ) {}
 
   public async getHistory({ take, skip }) {
+    if (!take || !skip) {
+      const [result, total] =await this.historyRepository
+      .createQueryBuilder('history')
+      .innerJoinAndSelect('history.product', 'product')
+      .orderBy('history.createdAt', 'DESC')
+      .select([
+        'history.id',
+        'history.type',
+        'history.quantity',
+        'history.createdAt',
+        'product.id',
+        'product.name',
+      ])
+      .getManyAndCount();
+      const historyFormat = result.map((history) => ({
+        id: history.id,
+        productId: history.product.id,
+        type: history.type,
+        quantity: history.quantity,
+        product: history.product.name,
+        datetime: history.createdAt,
+      }));
+  
+      return {
+        data: historyFormat,
+        count: total,
+      };
+    }
     const [result, total] = await this.historyRepository
     .createQueryBuilder('history')
     .innerJoinAndSelect('history.product', 'product')

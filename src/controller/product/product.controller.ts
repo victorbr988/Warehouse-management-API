@@ -72,19 +72,18 @@ export class ProductController {
     }
   }
   
-  @Delete("delete")
+  @Delete(":id")
   @ApiResponse({ status: 201, description: 'Product created successfully' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
-  public async deleteProduct(@Param() id: string, @Res() res: Response) {
+  public async deleteProduct(@Param("id") id: string, @Res() res: Response) {
     try {
       if (!id) {
         throw new BadRequestException("Id is required");
       }
-
       await this.productService.deleteProduct(id);
-      return res.status(HttpStatus.CREATED).json({ message: "Product created successfully" });
+      return res.status(HttpStatus.CREATED).json({ message: "Product deleted successfully" });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }

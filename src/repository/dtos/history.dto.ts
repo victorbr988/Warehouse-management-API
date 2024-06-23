@@ -35,7 +35,7 @@ export class HistoryDto {
   @ApiProperty({
     description: "Id do usuário",
     type: String,
-    required: true
+    required: false
   })
   userId: string;
 }
