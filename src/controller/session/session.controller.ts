@@ -26,7 +26,7 @@ export class SessionController {
     return res.status(201).cookie('token', accessToken, { 
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "lax",
     }).json({ message: "Session created successfully" });
   }
