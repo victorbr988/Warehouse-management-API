@@ -27,7 +27,7 @@ export class SessionController {
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      domain: 'www.vm.semeatech.com.br',
+      domain: 'vm.semeatech.com.br',
       path: "/",
       sameSite: "lax",
     }).json({ message: "Session created successfully" });
