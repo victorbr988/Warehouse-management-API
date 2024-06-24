@@ -27,7 +27,7 @@ import { HistoryController } from './controller/history/history.controller';
       password: process.env.DATABASE_PASSWORD,
       database: 'verceldb',
       autoLoadEntities: true,
-      synchronize: true,
+      ssl: true,
       extra: {
         timezone: 'UTC',
       },
