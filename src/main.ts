@@ -40,5 +40,6 @@ async function bootstrap() {
 
   await app.listen(port);
   console.log(`App listen on localhost:${port}`)
+  console.log(`Cors enabled on ${origin}`)
 }
 bootstrap();
