@@ -28,7 +28,7 @@ import { HistoryController } from './controller/history/history.controller';
       database: 'verceldb',
       autoLoadEntities: true,
       ssl: true,
-      synchronize: true,
+      synchronize: false,
       extra: {
         timezone: 'UTC',
       },
