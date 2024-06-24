@@ -26,7 +26,9 @@ export class SessionController {
     return res.status(201).cookie('token', accessToken, { 
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
+      domain: "https://www.vm.semeatech.com.br",
+      path: "/",
       sameSite: "lax",
     }).json({ message: "Session created successfully" });
   }
