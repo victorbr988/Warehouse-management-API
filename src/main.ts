@@ -16,19 +16,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
   }));
-  app.use((_req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', 'true')
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'X-CSFR-Token,X-Requested-With, content-type, Authorization');
-    next();
-  });
   
   app.enableCors({
     origin,
-    optionsSuccessStatus: 200,
-    allowedHeaders: ['X-CSFR-Token','X-Requested-With', 'content-type', 'Authorization'],
-    preflightContinue: false,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
