@@ -17,9 +17,11 @@ async function bootstrap() {
     transform: true,
   }));
   app.use((_req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true')
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-CSFR-Token,X-Requested-With, content-type, Authorization');
+    console.log("Chegou no middleware")
     next();
   });
   
