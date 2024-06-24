@@ -25,7 +25,7 @@ import { HistoryController } from './controller/history/history.controller';
       port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      database: 'vm_5dhf',
+      database: 'verceldb',
       autoLoadEntities: true,
       synchronize: true,
       extra: {
