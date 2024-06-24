@@ -21,12 +21,14 @@ async function bootstrap() {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'X-CSFR-Token,X-Requested-With, content-type, Authorization');
-    console.log("Chegou no middleware")
     next();
   });
   
   app.enableCors({
     origin,
+    optionsSuccessStatus: 200,
+    allowedHeaders: ['X-CSFR-Token','X-Requested-With', 'content-type', 'Authorization'],
+    preflightContinue: false,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
