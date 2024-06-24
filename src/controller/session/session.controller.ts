@@ -24,10 +24,9 @@ export class SessionController {
     const accessToken = await this.sessionService.createSession({ email, password });
 
     return res.status(201).cookie('token', accessToken, { 
-      path: '/',
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: "lax",
     }).json({ message: "Session created successfully" });
   }

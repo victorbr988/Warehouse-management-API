@@ -8,7 +8,7 @@ import "dotenv/config";
 import * as express from 'express';
 
 async function bootstrap() {
-  const origin = process.env.ORIGIN || 'http://localhost:3000';
+  const origin = process.env.ORIGIN;
   const port = process.env.PORT || 5000;
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser())
